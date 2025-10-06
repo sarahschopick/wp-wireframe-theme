@@ -86,6 +86,10 @@ function theme_extend_dark_mode_mappings() {
                 'color'  => 'active',
                 'active' => 'color',
             ],
+            'hover' => [
+                'color'  => 'active',
+                'active' => 'color',
+            ],
         ];
         
         $data['darkMode']['shadeMap'] = array_merge(
@@ -98,6 +102,52 @@ function theme_extend_dark_mode_mappings() {
 }
 
 add_action('after_setup_theme', 'theme_extend_dark_mode_mappings');
+
+/**
+ * Theme block patterns
+ */
+if ( ! function_exists( 'theme_register_block_pattern_category' ) ) {
+	/**
+	 * Register theme pattern category
+	 * 
+	 * @return void
+	 */
+	function theme_register_block_pattern_category() {
+		if ( function_exists( 'register_block_pattern_category' ) ) {
+			register_block_pattern_category( 'wireframe', array(
+				'label' => __( 'Wireframe', 'wireframe' )
+			) );
+		}
+	}
+}
+
+add_action( 'init', 'theme_register_block_pattern_category' );
+
+
+/**
+ * Theme template areas
+ */
+function theme_template_part_areas( array $areas ) {
+	$areas[] = array(
+		'area' => 'posts',
+		'area_tag' => 'section',
+		'label' => __( 'Posts', 'wireframe' ),
+		'description' => __( 'Displaying posts.', 'wireframe' ),
+		'icon' => 'layout'
+	);
+
+	$areas[] = array(
+		'area' => 'sidebar',
+		'area_tag' => 'aside',
+		'label' => __( 'Sidebar', 'wireframe' ),
+		'description' => __( 'Sidebar', 'wireframe' ),
+		'icon' => 'layout'
+	);
+
+	return $areas;
+}
+
+add_filter( 'default_wp_template_part_areas', 'theme_template_part_areas' );
 
 /** 
  * Theme dashboard hooks 
