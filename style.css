@@ -3,7 +3,7 @@ Theme Name: Wireframe
 Theme URI: 
 Author: Sarah Schopick
 Author URI: 
-Description: A clean wireframe WordPress block theme
+Description: A clean wireframe WordPress block theme to use as a foundation for building custom themes
 Version: 1.0.0
 Template: plover
 Requires at least: 6.6
@@ -16,12 +16,12 @@ Recommends: plover-kit
 Tags: block-theme, wireframe, minimal, template, full-site-editing, editor-style, block-patterns, wide-blocks, block-styles, style-variations, threaded-comments, translation-ready, sticky-post, footer-widgets, custom-background, custom-colors, custom-header, custom-logo, custom-menu, featured-image-header, featured-images, flexible-header, one-column, two-columns, three-columns, full-width-template, rtl-language-support, grid-layout, left-sidebar, right-sidebar, portfolio, blog, news
 */
 
-/* From Parent Theme */ 
+/* From Parent Theme */
 .plover-sticky.has-sticky-bottom-border {
     border-bottom: 1px solid transparent;
 }
 
-/* Child Theme Styles */ 
+/* Child Theme Styles */
 
 /* 
 ===========================================
@@ -58,20 +58,20 @@ COLOR VARIABLE REFERENCE
 */
 
 :root {
-  /* GRADIENT VARIABLES: */
-  --wp--preset--gradient--primary-gradient: linear-gradient(135deg, var(--wp--preset--color--primary-color) 0%, var(--wp--preset--color--primary-active) 100%);
-  --wp--preset--gradient--secondary-gradient: linear-gradient(135deg, var(--wp--preset--color--secondary-color) 0%, var(--wp--preset--color--secondary-active) 100%);
-  --wp--preset--gradient--primary-secondary: linear-gradient(135deg, var(--wp--preset--color--primary-color) 0%, var(--wp--preset--color--secondary-color) 100%);
-  --wp--preset--gradient--primary-secondary-active: linear-gradient(135deg, var(--wp--preset--color--primary-active) 0%, var(--wp--preset--color--secondary-active) 100%);
-  --wp--preset--gradient--primary-secondaryactive: linear-gradient(135deg, var(--wp--preset--color--primary-color) 0%, var(--wp--preset--color--secondary-active) 100%);
-  --wp--preset--gradient--primaryactive-secondary: linear-gradient(135deg, var(--wp--preset--color--primary-active) 0%, var(--wp--preset--color--secondary-color) 100%);
+    /* GRADIENT VARIABLES: */
+    --wp--preset--gradient--primary-gradient: linear-gradient(135deg, var(--wp--preset--color--primary-color) 0%, var(--wp--preset--color--primary-active) 100%);
+    --wp--preset--gradient--secondary-gradient: linear-gradient(135deg, var(--wp--preset--color--secondary-color) 0%, var(--wp--preset--color--secondary-active) 100%);
+    --wp--preset--gradient--primary-secondary: linear-gradient(135deg, var(--wp--preset--color--primary-color) 0%, var(--wp--preset--color--secondary-color) 100%);
+    --wp--preset--gradient--primary-secondary-active: linear-gradient(135deg, var(--wp--preset--color--primary-active) 0%, var(--wp--preset--color--secondary-active) 100%);
+    --wp--preset--gradient--primary-secondaryactive: linear-gradient(135deg, var(--wp--preset--color--primary-color) 0%, var(--wp--preset--color--secondary-active) 100%);
+    --wp--preset--gradient--primaryactive-secondary: linear-gradient(135deg, var(--wp--preset--color--primary-active) 0%, var(--wp--preset--color--secondary-color) 100%);
 }
 
 body {
-  /* Typography */ 
-  text-wrap: wrap;
-  letter-spacing: 0.01em;
-  word-spacing: 0.02em;
+    /* Typography */
+    text-wrap: wrap;
+    letter-spacing: 0.01em;
+    word-spacing: 0.02em;
 }
 
 .wp-block-query-pagination-numbers {

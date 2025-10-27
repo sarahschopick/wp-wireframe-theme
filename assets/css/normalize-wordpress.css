@@ -1,0 +1,426 @@
+/** 
+ * NORMALIZE WORDPRESS 
+ */
+
+/* ============ Contain Layout ============ */
+
+/* 1) Make padding part of width of all blocks */
+:root {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+/* 2) Cap full-width blocks so they never exceed the viewport */
+.wp-site-blocks>.alignfull,
+.wp-site-blocks .alignfull {
+    max-width: 100%;
+}
+
+/* 3) Sticky header: avoid fractional widths wider than viewport */
+.plover-is-sticky-block,
+.sticky-spacer {
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+}
+
+/* 4) Belt-and-suspenders: clip horizontal overflow */
+html,
+body {
+    overflow-x: clip;
+    overflow-x: hidden;
+    /* fall back to hidden if your browser doesn’t support clip */
+}
+
+/* ============ Root Styles & Safe Fallbacks ============ */
+
+:root {
+    /* Typography */
+
+    --system-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    /** Default System Fonts **/
+    /* Apple devices (macOS/iOS): -apple-system, BlinkMacSystemFont */
+    /* Windows: "Segoe UI" */
+    /* Android and Chrome OS: Roboto */
+    /* KDE Linux: Oxygen-Sans */
+    /* Ubuntu Linux: Ubuntu */
+    /* GNOME Linux: Cantarell */
+    /* Older macOS/iOS: "Helvetica Neue" */
+
+    /* Override default WordPress theme font sizes with responsive sizing */
+    --wp--preset--font-size--base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+    --wp--preset--font-size--medium: var(--wp--preset--font-size--base);
+    --wp--preset--font-size--normal: var(--wp--preset--font-size--base);
+
+    /* Spacing */
+    --content-padding: clamp(1rem, 5vw, 2rem);
+
+    /* Layout */
+    --content-size: min(100% - 2 * var(--content-padding), 720px);
+    --wide-size: min(100% - 2 * var(--content-padding), 1280px);
+}
+
+/* ============ Base Layout ============ */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    /* Typography */
+    font-size: var(--wp--preset--font-size--base);
+}
+
+/* Site editor specific */
+.editor-styles-wrapper {
+    font-size: var(--wp--preset--font-size--base);
+    padding: var(--content-padding);
+}
+
+main {
+    flex: 1;
+    container-type: inline-size;
+}
+
+.site-header,
+.site-footer {
+    width: 100%;
+}
+
+.site-header.sticky {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.site-footer.sticky {
+    position: sticky;
+    bottom: 0;
+}
+
+/* ============ Container Normalization ============ */
+:where(.wp-site-blocks, .site, #page, #wrapper, #wrap, #site-content, #page-container) {
+    width: 100%;
+    max-width: var(--wide-size);
+    margin-inline: auto;
+    padding-inline: var(--content-padding);
+}
+
+/* Block theme containers */
+.wp-site-blocks,
+body>.is-layout-flow,
+body>.is-layout-constrained {
+    width: 100%;
+    max-width: var(--wide-size);
+    margin-inline: auto;
+    padding-inline: var(--content-padding);
+}
+
+.alignfull {
+    width: 100%;
+    max-width: 100vw;
+    margin-inline: calc(50% - 50vw);
+}
+
+.alignwide {
+    max-width: var(--wide-size);
+    margin-inline: auto;
+}
+
+/* ============ Typography ============ */
+p,
+.wp-block-paragraph {
+    margin-block-end: 1em;
+    max-width: 65ch;
+}
+
+.alignwide p,
+.alignfull p {
+    max-width: 75ch;
+}
+
+/* ============ WordPress Block Improvements ============ */
+
+/* Pagination Layout (theme-agnostic improvements) */
+.wp-block-query-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+    padding: 1rem 0;
+    overflow-x: clip
+        /* prevents horizontal scroll if content overflows */
+    ;
+}
+
+.wp-block-query-pagination::-webkit-scrollbar {
+    /* hides horizontal scrollbar on pagination if theme styles force content overflow */
+    display: none;
+}
+
+.wp-block-query-pagination-previous,
+.wp-block-query-pagination-next,
+.wp-block-query-pagination-numbers {
+    flex-shrink: 0;
+}
+
+.wp-block-query-pagination.has-background {
+    padding: clamp(1rem, 3vw, 1.5rem);
+}
+
+.wp-block-query-pagination-numbers {
+    width: 2em;
+    height: 2em;
+    line-height: 1;
+    padding: 0.5em;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.2s ease;
+    border: 1px solid transparent
+        /* Default: no visible border */
+    ;
+}
+
+.wp-block-query-pagination-numbers.is-style-circle,
+.wp-block-query-pagination-numbers.is-style-rounded,
+.wp-block-query-pagination-numbers.is-style-pill {
+    border-color: currentColor;
+}
+
+.wp-block-query-pagination-numbers a.page-numbers:hover,
+.wp-block-query-pagination-numbers a.page-numbers:active,
+.wp-block-query-pagination-numbers a.page-numbers.current {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    font-weight: bold;
+}
+
+/* Button Block Improvements */
+.wp-block-button__link {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    padding: 0.75em 1.5em;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.wp-block-button__link:hover {
+    transform: translateY(-2px)
+        /* subtle lift on hover */
+    ;
+    opacity: 0.9;
+}
+
+.wp-block-button__link:active {
+    transform: translateY(0);
+    /* press down feeling on click */
+}
+
+/* Featured Image Improvements */
+.wp-block-post-featured-image img {
+    object-fit: cover;
+    height: auto;
+    max-height: 500px;
+}
+
+/* Post Template Grid */
+.wp-block-post-template {
+    display: grid;
+    gap: 1.5em;
+    grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+}
+
+/* ============ Performance Optimizations ============ */
+img[loading="lazy"],
+iframe[loading="lazy"] {
+    content-visibility: auto;
+}
+
+img,
+video,
+svg {
+    display: block;
+    /* Removes inline spacing issues */
+}
+
+/* Reduce paint for off-screen elements */
+.wp-block-group,
+.wp-block-cover {
+    content-visibility: auto
+        /* improves render performance */
+    ;
+    contain-intrinsic-size: auto 500px
+        /* so browser can calculate scroll height */
+    ;
+}
+
+/* Prevent layout shift with embeds */
+.wp-block-embed {
+    position: relative;
+}
+
+.wp-block-embed iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Responsive embed wrapper */
+.wp-block-embed__wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+}
+
+/* ============ Common WordPress Utility Classes ============ */
+
+/* Border Radius Utilities */
+.is-style-rounded {
+    border-radius: 0.5rem;
+    overflow: hidden
+        /* Prevents child elements from breaking border-radius */
+    ;
+}
+
+.is-style-circle {
+    border-radius: 50%;
+    aspect-ratio: 1;
+    /* Ensures perfect circle */
+    overflow: hidden;
+}
+
+.is-style-pill {
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+/* Border Utilities */
+.is-style-outline {
+    border: 2px solid currentColor;
+    background: transparent;
+}
+
+.is-style-no-border {
+    border: none !important;
+}
+
+/* Shadow Utilities */
+.has-shadow {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.has-shadow-large {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Image Utilities */
+.is-style-grayscale {
+    filter: grayscale(100%);
+}
+
+.is-style-sepia {
+    filter: sepia(100%);
+}
+
+.is-style-blur {
+    filter: blur(4px);
+}
+
+/* Respect reduced motion for filters */
+@media (prefers-reduced-motion: no-preference) {
+
+    .is-style-grayscale,
+    .is-style-sepia,
+    .is-style-blur {
+        transition: filter 0.3s ease;
+    }
+
+    .is-style-grayscale:hover {
+        filter: grayscale(0%);
+    }
+}
+
+/* Animation Utilities */
+@media (prefers-reduced-motion: no-preference) {
+    .is-style-fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .is-style-slide-up {
+        animation: slideUp 0.5s ease-out;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ============ Accessibility Improvements ============ */
+
+/* Skip link */
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    background: currentColor;
+    color: Canvas;
+    /* System background color */
+    padding: 1rem;
+    text-decoration: none;
+    z-index: 9999;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* Focus visible styles */
+:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
+/* Remove outline for mouse users (relies on :focus-visible support) */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* ============ WordPress Editor Improvements ============ */
+
+/* Better spacing in editor */
+.block-editor-block-list__layout>* {
+    margin-block: 1em;
+}

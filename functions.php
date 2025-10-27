@@ -1,14 +1,45 @@
 <?php
+/**
+ * Wireframe bootstrap
+ *
+ * @package Wireframe
+ *
+ * @since 1.0.0
+ */
+
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
-}
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Theme Constants 
  */ 
 
-// Assets 
+if ( ! defined( 'WIREFRAME_VERSION' ) ) {
+	// Replace the version number of the theme on each release.
+	define( 'WIREFRAME_VERSION', '1.0.0' );
+}
+
+/**
+ * Post Formats
+ */
+// Adds theme support for post formats.
+if ( ! function_exists( 'theme_post_format_setup' ) ) :
+	/**
+	 * Adds theme support for post formats.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	function theme_post_format_setup() {
+		add_theme_support( 'post-formats', array( 'aside', 'audio', 'chat', 'gallery', 'image', 'link', 'quote', 'status', 'video' ) );
+	}
+endif;
+add_action( 'after_setup_theme', 'theme_post_format_setup' );
+
+/**
+ * Assets 
+ */ 
 if ( ! function_exists( 'theme_asset_url' ) ) {
     function theme_asset_url( $path ) {
         return trailingslashit( get_stylesheet_directory_uri() ) . 'assets/' . ltrim( $path, '/' );
@@ -52,56 +83,78 @@ if ( ! function_exists( 'enqueue_theme_styles' ) ) {
     function enqueue_theme_styles() {
         enqueue_css_with_fallback(
             'the-new-normal',
-            'the-new-normal.css',
+            'the-new-normal.min.css',
             'https://cdn.jsdelivr.net/gh/sarahschopick/the-new-normal.css@main/the-new-normal.min.css'
         );
         
         enqueue_css_with_fallback(
             'normalize-wordpress',
-            'normalize-wordpress.css',
+            'normalize-wordpress.min.css',
             'https://cdn.jsdelivr.net/gh/sarahschopick/normalize-wordpress@main/normalize-wordpress.min.css'
         );
     }
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_theme_styles' );
 
-// Default Color Mode
-if ( ! function_exists( 'theme_default_color_mode' ) ) {
-	function theme_default_color_mode() {
-		return 'system';
-	}
-}
-add_filter( 'plover_theme_default_color_mode', 'theme_default_color_mode' );
-
-// Extend dark mode color mappings
-function theme_extend_dark_mode_mappings() {
-    add_filter('plover_theme_editor_data', function($data) {
-        if (!isset($data['darkMode']['shadeMap'])) {
-            return $data;
+// Enqueue CSS files from subfolders
+if ( ! function_exists( 'enqueue_additional_css_files' ) ) {
+    function enqueue_additional_css_files() {
+        $css_folder = get_stylesheet_directory() . '/assets/css/';
+        
+        // Check if folder exists
+        if ( ! is_dir( $css_folder ) ) {
+            return;
         }
         
-        // Add your custom color mappings here
-        $custom_mappings = [
-            'secondary' => [
-                'color'  => 'active',
-                'active' => 'color',
-            ],
-            'hover' => [
-                'color'  => 'active',
-                'active' => 'color',
-            ],
-        ];
-        
-        $data['darkMode']['shadeMap'] = array_merge(
-            $data['darkMode']['shadeMap'], 
-            $custom_mappings
-        );
-        
-        return $data;
-    });
+        try {
+            // Get all CSS files including subfolders
+            $iterator = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator( $css_folder, RecursiveDirectoryIterator::SKIP_DOTS ),
+                RecursiveIteratorIterator::SELF_FIRST
+            );
+            
+            foreach ( $iterator as $file ) {
+                // Only process CSS files
+                if ( $file->isFile() && $file->getExtension() === 'css' ) {
+                    $file_path = $file->getPathname();
+                    
+                    // Get relative path from assets/css/
+                    $relative_path = str_replace( $css_folder, '', $file_path );
+                    $relative_path = str_replace( '\\', '/', $relative_path ); // Windows compatibility
+                    
+                    // Skip files in the root directory (only process files in subfolders)
+                    if ( strpos( $relative_path, '/' ) === false ) {
+                        continue;
+                    }
+                    
+                    // Create unique handle from the relative path
+                    $handle = 'custom-css-' . sanitize_title( str_replace( '/', '-', $relative_path ) );
+                    
+                    // Use theme_asset_url() for consistency
+                    $file_url = theme_asset_url( 'css/' . $relative_path );
+                    
+                    wp_enqueue_style(
+                        $handle,
+                        $file_url,
+                        array(), // dependencies
+                        filemtime( $file_path ) // version based on file modification time
+                    );
+                }
+            }
+        } catch ( Exception $e ) {
+            // Log error if directory iteration fails
+            error_log( 'Error enqueuing CSS files: ' . $e->getMessage() );
+        }
+    }
 }
+add_action( 'wp_enqueue_scripts', 'enqueue_additional_css_files', 20 );
 
-add_action('after_setup_theme', 'theme_extend_dark_mode_mappings');
+/** 
+ * Extensions
+ */
+if ( file_exists( get_stylesheet_directory() . '/src/Extensions/DarkMode.php' ) ) {
+    require_once get_stylesheet_directory() . '/src/Extensions/DarkMode.php';
+}
 
 /**
  * Theme block patterns

@@ -1,0 +1,356 @@
+/*! Modern Combined Reset: minireset + normalize + new-css-reset features */
+/*! Normalization-only: safe cross-browser defaults, no opinions */
+
+/* Viewport meta belongs in HTML (kept here as a reminder)
+   <meta name="viewport" content="width=device-width, initial-scale=1"> */
+
+/* 1) Universal reset: margins/padding + box-sizing inherit */
+:root {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+/* 2) Root defaults */
+html {
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -moz-tab-size: 4;
+    tab-size: 4;
+}
+
+/* 3) Body defaults */
+body {
+    line-height: 1.15;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
+    min-height: 100vh;
+    min-height: 100dvh;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* 4) Lists: remove default markers */
+ol,
+ul,
+menu {
+    list-style: none;
+}
+
+/* 5) Headings: normalize margins and inheritance */
+:where(h1, h2, h3, h4, h5, h6) {
+    margin: 0;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: 1.2;
+}
+
+/* 6) Common text blocks: remove default margins */
+:where(p, blockquote, dl, dd, figure, pre) {
+    margin: 0;
+}
+
+/* 7) Links: keep inline & unobtrusive */
+:where(a) {
+    background-color: transparent;
+    color: inherit;
+    text-decoration: inherit;
+}
+
+/* 8) Cursor normalization */
+:where(a, button) {
+    cursor: revert;
+}
+
+/* 9) Text semantics */
+abbr[title] {
+    border-bottom: none;
+    text-decoration: underline dotted;
+    cursor: help;
+}
+
+:where(b, strong) {
+    font-weight: bolder;
+}
+
+:where(code, kbd, samp, pre) {
+    font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo,
+        monospace;
+    font-size: 1em;
+}
+
+small {
+    font-size: 80%;
+}
+
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+sup {
+    top: -0.5em;
+}
+
+/* 10) Media: basic responsive behavior */
+:where(img, svg, video, canvas, audio, iframe, embed, object) {
+    max-width: 100%;
+    height: auto;
+}
+
+/* 11) Images: accessibility and display normalization */
+:where(img) {
+    vertical-align: middle;
+}
+
+/* Missing alt text indicator */
+img:not([alt]) {
+    outline: 2px solid red;
+}
+
+img[alt=""] {
+    outline: none;
+}
+
+/* 12) SVG normalization */
+:where(svg) {
+    vertical-align: middle;
+    fill: currentColor;
+}
+
+/* 13) Forms: normalize appearance and inherit fonts/colors */
+:where(input, button, textarea, select) {
+    font: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+    word-spacing: inherit;
+}
+
+/* Form input normalization */
+:where(input, textarea) {
+    margin: 0;
+    -webkit-user-select: auto;
+    -moz-user-select: auto;
+    -ms-user-select: auto;
+    user-select: auto;
+}
+
+/* Button normalization */
+:where(button) {
+    margin: 0;
+    background: transparent;
+    border: none;
+}
+
+/* Remove UA-specific quirks */
+:where(input:invalid, textarea:invalid, select:invalid) {
+    box-shadow: none;
+}
+
+/* Button styling normalization */
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+    -webkit-appearance: button;
+    appearance: button;
+    background-image: none;
+}
+
+/* Number input spinners */
+:where([type="number"]::-webkit-inner-spin-button, [type="number"]::-webkit-outer-spin-button) {
+    height: auto;
+}
+
+/* Search inputs */
+:where([type="search"]) {
+    -webkit-appearance: textfield;
+    appearance: textfield;
+    outline-offset: -2px;
+}
+
+:where([type="search"]::-webkit-search-decoration) {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* File upload button */
+:where(::-webkit-file-upload-button) {
+    -webkit-appearance: button;
+    appearance: button;
+    font: inherit;
+}
+
+/* Checkbox and radio normalization */
+:where([type="checkbox"], [type="radio"]) {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+/* 14) Fieldset/legend normalization */
+:where(fieldset) {
+    margin: 0;
+    padding: 0;
+    border: 1px solid currentColor;
+    min-width: 0;
+}
+
+:where(legend) {
+    color: inherit;
+    display: table;
+    max-width: 100%;
+    padding: 0;
+    white-space: normal;
+}
+
+/* 15) Progress normalization */
+:where(progress) {
+    vertical-align: baseline;
+}
+
+/* 16) Textarea normalization */
+:where(textarea) {
+    overflow: auto;
+    resize: vertical;
+}
+
+/* 17) Table normalization */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* 18) HR normalization */
+:where(hr) {
+    height: 1px;
+    color: inherit;
+    border: none;
+    background-color: currentColor;
+}
+
+/* 19) Details/summary defaults */
+:where(details) {
+    display: block;
+}
+
+:where(summary) {
+    display: list-item;
+}
+
+/* 20) Hidden elements */
+:where(template, [hidden]) {
+    display: none;
+}
+
+/* 21) Interactive state normalization */
+:where([disabled]) {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* 22) Focus management normalization */
+:where([tabindex="-1"]:focus:not(:focus-visible)) {
+    outline: 0 !important;
+}
+
+/* 23) Root stacking context for SPA containers */
+:where(#root, #__next) {
+    isolation: isolate;
+}
+
+/* 24) Tap highlight removal for better mobile experience */
+:where(a, area, button, input, label, select, summary, textarea, [tabindex]) {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* 25) Reduced motion normalization */
+@media (prefers-reduced-motion: reduce) {
+
+    html,
+    html:focus-within {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* 26) Print normalization */
+@media print {
+
+    *,
+    *::before,
+    *::after {
+        background: transparent !important;
+        color: black !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    abbr[title]::after {
+        content: " (" attr(title) ")";
+    }
+
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+
+    img {
+        page-break-inside: avoid;
+    }
+
+    p,
+    pre,
+    blockquote,
+    q,
+    code,
+    figcaption {
+        line-height: 2;
+        /* Double-spacing for annotations and improved print accessibility */
+    }
+
+    p {
+        font-size: 1rem;
+        /* Ensure minimum readable size for print */
+    }
+
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}

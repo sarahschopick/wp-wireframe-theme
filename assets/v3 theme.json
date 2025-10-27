@@ -23,7 +23,7 @@
                 },
                 {
                     "name": "Primary",
-                    "slug": "primary",
+                    "slug": "primary-color",
                     "color": "#13587f"
                 },
                 {
@@ -33,7 +33,7 @@
                 },
                 {
                     "name": "Secondary",
-                    "slug": "secondary",
+                    "slug": "secondary-color",
                     "color": "#0891b2"
                 },
                 {
@@ -43,7 +43,7 @@
                 },
                 {
                     "name": "Hover",
-                    "slug": "hover",
+                    "slug": "hover-color",
                     "color": "#0d9488"
                 },
                 {

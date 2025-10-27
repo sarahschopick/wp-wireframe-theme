@@ -86,6 +86,16 @@
                 },
                 {
                     "color": "#06b6d4",
+                    "name": "Link / Active",
+                    "slug": "link-active"
+                },
+                {
+                    "color": "#0d9488",
+                    "name": "Link",
+                    "slug": "link-color"
+                },
+                {
+                    "color": "#06b6d4",
                     "name": "Hover / Active",
                     "slug": "hover-active"
                 },
@@ -1189,7 +1199,7 @@
             "title": "Wireframe: Footer"
         },
         {
-            "area": "uncategorized",
+            "area": "sidebar",
             "name": "sidebar",
             "title": "Wireframe: Sidebar"
         },
